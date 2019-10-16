@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ImdbClone</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body>
+    <% flash.each do |name,msg|%>
+      <%= content_tag(:div,msg, class:"alert alert-info")%>
+    <% end %>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="display-4">Imdb Clone App</h1>
+        <p>
+          <% if user_signed_in? %>
+            Currently logged in as <%= current_user.try(:email) %>
+            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "btn btn-secondary" )%><br/>
+            <%= link_to 'Home', root_path, class: "btn btn-primary"%> 
+            <% if current_user.role == "admin" %>
+              <%= link_to 'Dashboard', dashboard_path, class: "btn btn-primary"%> 
+            <% end %>
+          <% else %>
+              <%= link_to('Login', new_user_session_path) %> 
+          <% end %>
+        </p>
+    </div>
+    <%= yield %>
+  </body>
+</html>
